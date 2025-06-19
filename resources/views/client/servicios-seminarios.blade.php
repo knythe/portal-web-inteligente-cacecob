@@ -5,7 +5,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Portal web | CACECOB</title>
+    <title>Seminarios | CACECOB</title>
     <link rel="icon" href="favicon.ico">
     <link href="/assets/css/style.css" rel="stylesheet">
     <link rel="stylesheet" href="../assets/css/tailwind.output.css" />
@@ -29,45 +29,12 @@
     <!-- ===== Header End ===== -->
 
     <main>
-        <section class="gj do ir hj sp jr i pg" style="padding-bottom: 0px;">
-            <!-- Hero Images -->
-            <div class="xc fn zd/2 2xl:ud-w-187.5 bd 2xl:ud-h-171.5 h q r">
-                <img src="/assets/img/shape-01.svg" alt="shape" class="xc 2xl:ud-block h t -ud-left-[10%] ua">
-                <img src="/assets/img/shape-02.svg" alt="shape" class="xc 2xl:ud-block h u p va">
-                <img src="/assets/img/shape-03.svg" alt="shape" class="xc 2xl:ud-block h v w va">
-                <img src="/assets/img/shape-04.svg" alt="shape" class="h q r">
-                <img src="/assets/img/hero.png" alt="Woman" class="h q r ua">
-            </div>
-
-            <!-- Hero Content -->
-            <div class="bb ze ki xn 2xl:ud-px-0">
-                <div class="tc _o">
-                    <div class="animate_left jn/2" data-sr-id="49" style="visibility: visible; opacity: 1; transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); transition: all, opacity 2.8s cubic-bezier(0.5, 0, 0, 1), transform 2.8s cubic-bezier(0.5, 0, 0, 1);">
-                        <h1 class="fk vj zp or kk wm wb">Prepárate para tu Concurso o Carrera con nuestros Cursos Jurídicos.</h1>
-                        <p class="fq">
-                            Diplomados y cursos especializados con valor académico, dictados por expertos y certificados por la Universidad Nacional de Piura.
-                        </p>
-
-                        <div class="tc tf yo zf mb">
-                            <a href="https://wa.link/4ylm8k" class="ek jk lk gh gi hi rg ml il vc _d _l">Contactanos</a>
-
-                            <span class="tc sf">
-                                <a href="#" class="inline-block ek xj kk wm"> LLama al (+51) 970-811-642 </a>
-                                <span class="inline-block">Atención personalizada para tus dudas</span>
-                            </span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
         <!-- ===== Blog Grid Start ===== -->
-
         <section class="ji gp uq">
             <div class="bb ye ki xn vq jb jo">
-               <h2 class="text-2xl font-bold text-black text-start mb-6">Nuestros servicios</h2>
+                 <h2 class="text-2xl font-bold text-black text-start mb-6">Nuestros seminarios</h2>
                 <div class="wc qf pn xo zf iq">
                     <!-- Blog Item -->
-
                     @foreach ($servicios as $servicio)
                     <div class="animate_top sg vk rm xm">
                         <div class="c rc i z-1 pg">

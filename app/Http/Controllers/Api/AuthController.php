@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\cliente;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -66,7 +67,7 @@ class AuthController extends Controller
     {
         $googleUser = Socialite::driver('google')->user();
         //dd($googleUser);
-         $user = User::firstOrCreate(
+        $user = User::firstOrCreate(
             ['email' => $googleUser->getEmail()],
             [
                 'name' => $googleUser->getName(),
@@ -74,6 +75,22 @@ class AuthController extends Controller
                 'photo' => $googleUser->getAvatar(),
             ]
         );
+
+        // Registrar también en la tabla clientes (si no existe)
+        Cliente::firstOrCreate(
+            ['user_id' => $user->id],
+            [
+                'nombres' => $user->name,
+                'apellidos' => null,
+                'dni' => null,
+                'telefono' => null,
+                'cargo' => null,
+                'photo' => $user->photo,
+                'email' => $user->email, // <-- aquí lo incluyes
+                'estado' => 1, // preinscrito
+            ]
+        );
+
 
         // Asegurarse que tenga rol de cliente
         if (!$user->hasRole('cliente')) {
@@ -84,8 +101,4 @@ class AuthController extends Controller
 
         return redirect()->route('portal');
     }
-
-    }
-
- 
-
+}

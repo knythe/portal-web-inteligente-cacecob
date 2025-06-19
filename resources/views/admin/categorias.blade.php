@@ -13,6 +13,70 @@
 
 <div class="w-full overflow-hidden rounded-lg shadow-xs">
     <div class="w-full overflow-x-auto">
+        <!-- avanced tale -->
+        <div class="flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0 md:space-x-4 p-4">
+            <!-- Buscador: 8/12 -->
+            <div class="w-full md:w-8/12">
+                <form class="flex items-center">
+                    <label for="simple-search" class="sr-only">Search</label>
+                    <div class="relative w-full">
+                        <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                            <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
+                            </svg>
+                        </div>
+                        <input type="text" id="simple-search" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full pl-10 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Search" required="">
+                    </div>
+                </form>
+            </div>
+
+            <!-- Filtro: 3/12 -->
+            <div class="w-full md:w-3/12 flex justify-end">
+                <div class="flex items-center space-x-3 w-full md:w-auto">
+                    <button id="filterDropdownButton" data-dropdown-toggle="filterDropdown"
+                        class="w-full md:w-auto flex items-center justify-center py-2 px-4 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
+                        type="button">
+                        <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="h-4 w-4 mr-2 text-gray-400"
+                            viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd"
+                                d="M3 3a1 1 0 011-1h12a1 1 0 011 1v3a1 1 0 01-.293.707L12 11.414V15a1 1 0 01-.293.707l-2 2A1 1 0 018 17v-5.586L3.293 6.707A1 1 0 013 6V3z"
+                                clip-rule="evenodd" />
+                        </svg>
+                        Filter
+                        <svg class="-mr-1 ml-1.5 w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
+                            xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                            <path clip-rule="evenodd" fill-rule="evenodd"
+                                d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" />
+                        </svg>
+                    </button>
+
+                    <!-- Dropdown con roles dinámicos -->
+                    <div id="filterDropdown"
+                        class="z-10 hidden w-48 p-3 bg-white rounded-lg shadow dark:bg-gray-700">
+                        <h6 class="mb-3 text-sm font-medium text-gray-900 dark:text-white">Filtrar por rol</h6>
+                        <ul class="space-y-2 text-sm" aria-labelledby="filterDropdownButton">
+
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Botón: 3/12 -->
+            <div class="w-full md:w-3/12 flex justify-end">
+                <div class="flex items-center space-x-3 w-full md:w-auto">
+                    <a href="{{ route('categorias.create') }}"
+                        class="w-full md:w-auto flex items-center justify-center py-2 px-4 text-sm font-medium text-white bg-purple-600 rounded-lg hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
+                        <svg class="h-4 w-4 mr-2" fill="currentColor" viewBox="0 0 20 20"
+                            xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                            <path clip-rule="evenodd" fill-rule="evenodd"
+                                d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" />
+                        </svg>
+                        Add categoria
+                    </a>
+                </div>
+            </div>
+        </div>
+        <!-- end avanced tale -->
         <table class="w-full whitespace-no-wrap">
             <thead>
                 <tr class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
@@ -34,9 +98,16 @@
                             </div>
                         </div>
                     </td>
-                    <td class="px-4 py-3 text-sm">
-                        {{$categoria->descripcion ?? 'no description'}}
+                    @php
+                    $words = explode(' ', $categoria->descripcion ?? 'no description');
+                    @endphp
+
+                    <td class="px-4 py-3 text-sm leading-6">
+                        @foreach(array_chunk($words, 5) as $chunk)
+                        {{ implode(' ', $chunk) }}<br>
+                        @endforeach
                     </td>
+
                     <td class="px-4 py-3 text-xs estado-categoria" data-id="{{ $categoria->id }}">
                         @if ($categoria->estado == 1)
                         <span class="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100">
@@ -85,89 +156,75 @@
             </tbody>
         </table>
     </div>
+    <!--- paginate -->
     <div
         class="grid px-4 py-3 text-xs font-semibold tracking-wide text-gray-500 uppercase border-t dark:border-gray-700 bg-gray-50 sm:grid-cols-9 dark:text-gray-400 dark:bg-gray-800">
+
         <span class="flex items-center col-span-3">
-            Showing 21-30 of 100
+            Showing
+            {{ $categorias->firstItem() }}-{{ $categorias->lastItem() }} of {{ $categorias->total() }}
         </span>
+
         <span class="col-span-2"></span>
+
         <!-- Pagination -->
         <span class="flex col-span-4 mt-2 sm:mt-auto sm:justify-end">
             <nav aria-label="Table navigation">
                 <ul class="inline-flex items-center">
+                    <!-- Previous Button -->
                     <li>
                         <button
                             class="px-3 py-1 rounded-md rounded-l-lg focus:outline-none focus:shadow-outline-purple"
+                            @if(!$categorias->onFirstPage()) onclick="window.location='{{ $categorias->previousPageUrl() }}'" @else disabled @endif
                             aria-label="Previous">
-                            <svg
-                                class="w-4 h-4 fill-current"
-                                aria-hidden="true"
-                                viewBox="0 0 20 20">
-                                <path
-                                    d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
-                                    clip-rule="evenodd"
-                                    fill-rule="evenodd"></path>
+                            <svg class="w-4 h-4 fill-current" aria-hidden="true" viewBox="0 0 20 20">
+                                <path d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
+                                    clip-rule="evenodd" fill-rule="evenodd"></path>
                             </svg>
                         </button>
                     </li>
-                    <li>
-                        <button
-                            class="px-3 py-1 rounded-md focus:outline-none focus:shadow-outline-purple">
-                            1
-                        </button>
-                    </li>
-                    <li>
-                        <button
-                            class="px-3 py-1 rounded-md focus:outline-none focus:shadow-outline-purple">
-                            2
-                        </button>
-                    </li>
+
+                    <!-- Page Numbers -->
+                    @foreach ($categorias->getUrlRange(1, $categorias->lastPage()) as $page => $url)
+                    @if ($page == $categorias->currentPage())
                     <li>
                         <button
                             class="px-3 py-1 text-white transition-colors duration-150 bg-purple-600 border border-r-0 border-purple-600 rounded-md focus:outline-none focus:shadow-outline-purple">
-                            3
+                            {{ $page }}
                         </button>
                     </li>
-                    <li>
-                        <button
-                            class="px-3 py-1 rounded-md focus:outline-none focus:shadow-outline-purple">
-                            4
-                        </button>
-                    </li>
-                    <li>
-                        <span class="px-3 py-1">...</span>
-                    </li>
-                    <li>
-                        <button
-                            class="px-3 py-1 rounded-md focus:outline-none focus:shadow-outline-purple">
-                            8
-                        </button>
-                    </li>
-                    <li>
-                        <button
-                            class="px-3 py-1 rounded-md focus:outline-none focus:shadow-outline-purple">
-                            9
-                        </button>
-                    </li>
-                    <li>
-                        <button
-                            class="px-3 py-1 rounded-md rounded-r-lg focus:outline-none focus:shadow-outline-purple"
-                            aria-label="Next">
-                            <svg
-                                class="w-4 h-4 fill-current"
-                                aria-hidden="true"
-                                viewBox="0 0 20 20">
-                                <path
-                                    d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                                    clip-rule="evenodd"
-                                    fill-rule="evenodd"></path>
-                            </svg>
-                        </button>
-                    </li>
+                    @elseif ($page == 1 || $page == $categorias->lastPage() || ($page >= $categorias->currentPage() - 1 && $page <= $categorias->currentPage() + 1))
+                        <li>
+                            <button
+                                class="px-3 py-1 rounded-md focus:outline-none focus:shadow-outline-purple"
+                                onclick="window.location='{{ $url }}'">
+                                {{ $page }}
+                            </button>
+                        </li>
+                        @elseif ($page == $categorias->currentPage() - 2 || $page == $categorias->currentPage() + 2)
+                        <li>
+                            <span class="px-3 py-1">...</span>
+                        </li>
+                        @endif
+                        @endforeach
+
+                        <!-- Next Button -->
+                        <li>
+                            <button
+                                class="px-3 py-1 rounded-md rounded-r-lg focus:outline-none focus:shadow-outline-purple"
+                                @if($categorias->hasMorePages()) onclick="window.location='{{ $categorias->nextPageUrl() }}'" @else disabled @endif
+                                aria-label="Next">
+                                <svg class="w-4 h-4 fill-current" aria-hidden="true" viewBox="0 0 20 20">
+                                    <path d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                                        clip-rule="evenodd" fill-rule="evenodd"></path>
+                                </svg>
+                            </button>
+                        </li>
                 </ul>
             </nav>
         </span>
     </div>
+    <!--- end paginate -->
 
 </div>
 @endsection

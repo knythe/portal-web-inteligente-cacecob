@@ -19,4 +19,9 @@ class cliente extends Model
     {
         return $this->hasMany(recomendacione::class);
     }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

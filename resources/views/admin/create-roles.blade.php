@@ -45,14 +45,17 @@
 
         </label>
         <div class="flex gap-4 mt-4">
-            <button type="submit"
-                class="w-full px-4 py-2 text-sm font-medium text-white bg-purple-600 rounded-lg hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
-                Send
-            </button>
-
+            <a href="{{ route('roles.index') }}" {{-- Ajusta la ruta si es necesario --}}
+                class="px-3 py-2 text-sm font-medium text-white bg-purple-600 rounded-lg hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
+                <-
+            </a>
             <button type="reset"
                 class="w-full px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-lg hover:bg-red-700 focus:outline-none focus:shadow-outline-red">
                 clear
+            </button>
+            <button type="submit"
+                class="w-full px-4 py-2 text-sm font-medium text-white bg-purple-600 rounded-lg hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
+                Send
             </button>
         </div>
     </div>
