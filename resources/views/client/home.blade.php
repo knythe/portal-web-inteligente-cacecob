@@ -64,7 +64,7 @@
 
         <section class="ji gp uq">
             <div class="bb ye ki xn vq jb jo">
-               <h2 class="text-2xl font-bold text-black text-start mb-6">Nuestros servicios</h2>
+                <h2 class="text-2xl font-bold text-black text-start mb-6">Nuestros servicios</h2>
                 <div class="wc qf pn xo zf iq">
                     <!-- Blog Item -->
 
@@ -228,6 +228,14 @@
             </div>
         </section>
         <!-- ===== CTA Start ===== -->
+         <h1>ola</h1>
+        @foreach ($recomendaciones as $rec)
+        <div class="p-4 bg-white rounded shadow">
+            <h3 class="text-lg font-bold">{{ $rec->servicio->titulo }}</h3>
+            <p class="text-sm text-gray-600">{{ $rec->razon }}</p>
+        </div>
+        @endforeach
+
 
 
         <!-- ===== CTA End ===== -->
