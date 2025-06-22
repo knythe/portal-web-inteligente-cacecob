@@ -228,13 +228,28 @@
             </div>
         </section>
         <!-- ===== CTA Start ===== -->
-         <h1>ola</h1>
-        @foreach ($recomendaciones as $rec)
-        <div class="p-4 bg-white rounded shadow">
-            <h3 class="text-lg font-bold">{{ $rec->servicio->titulo }}</h3>
-            <p class="text-sm text-gray-600">{{ $rec->razon }}</p>
+        <h1>ola</h1>
+        @if($recomendaciones->isNotEmpty())
+        <div class="mt-6">
+            <h2 class="text-xl font-bold mb-4">Recomendaciones para ti</h2>
+
+            <ul class="space-y-4">
+                @foreach($recomendaciones as $recomendacion)
+                @php
+                $servicio = $recomendacion->servicio;
+                @endphp
+
+                @if($servicio)
+                <li class="p-4 bg-white shadow rounded">
+                    <h3 class="text-lg font-semibold">{{ $servicio->titulo }}</h3>
+                    <p class="text-gray-700">{{ $servicio->descripcion }}</p>
+                </li>
+                @endif
+                @endforeach
+            </ul>
         </div>
-        @endforeach
+        @endif
+
 
 
 
