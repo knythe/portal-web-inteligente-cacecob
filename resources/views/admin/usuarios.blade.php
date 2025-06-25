@@ -10,7 +10,26 @@
 
 @section('content')
 <!--Contenido-->
-
+<!--breadcrumb-item-->
+<nav class="flex" aria-label="Breadcrumb">
+    <ol class="inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
+        <li class="inline-flex items-center">
+            <a href="{{ route('dashboard') }}" class="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600 dark:text-gray-400 dark:hover:text-white">
+                Dashboard
+            </a>
+        </li>
+        <li aria-current="page">
+            <div class="flex items-center">
+                <svg class="rtl:rotate-180 w-3 h-3 text-gray-400 mx-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4" />
+                </svg>
+                <span class="ms-1 text-sm font-medium text-gray-500 md:ms-2 dark:text-gray-400">Usuarios</span>
+            </div>
+        </li>
+    </ol>
+</nav>
+<br>
+<!--end breadcrumb-item-->
 <div class="w-full overflow-hidden rounded-lg shadow-xs">
     <div class="w-full overflow-x-auto">
         <!-- avanced tale -->
@@ -25,7 +44,7 @@
                                 <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
                             </svg>
                         </div>
-                        <input type="text" id="simple-search" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full pl-10 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Search" required="">
+                        <input type="text" id="searchInput" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full pl-10 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Search" required="">
                     </div>
                 </form>
             </div>
@@ -53,9 +72,25 @@
                     <!-- Dropdown con roles dinámicos -->
                     <div id="filterDropdown"
                         class="z-10 hidden w-48 p-3 bg-white rounded-lg shadow dark:bg-gray-700">
-                        <h6 class="mb-3 text-sm font-medium text-gray-900 dark:text-white">Filtrar por rol</h6>
                         <ul class="space-y-2 text-sm" aria-labelledby="filterDropdownButton">
-
+                            @foreach ($users->pluck('estado')->unique() as $userstate)
+                            <li class="flex items-center">
+                                <input
+                                    type="checkbox"
+                                    name="filter[]"
+                                    value="{{ $userstate }}"
+                                    id="filter-{{ \Illuminate\Support\Str::slug($userstate) }}"
+                                    class="user-filter w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
+                                <label for="filter-{{ \Illuminate\Support\Str::slug($userstate) }}"
+                                    class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-100">
+                                    @if ($userstate == 1)
+                                    Active
+                                    @else
+                                    Inactive
+                                    @endif
+                                </label>
+                            </li>
+                            @endforeach
                         </ul>
                     </div>
                 </div>
@@ -77,7 +112,7 @@
             </div>
         </div>
         <!-- end avanced tale -->
-        <table class="w-full whitespace-no-wrap">
+        <table class="w-full whitespace-no-wrap" id="usersTable">
             <thead>
                 <tr class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
                     <th class="px-4 py-3">User</th>

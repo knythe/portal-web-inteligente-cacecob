@@ -25,8 +25,9 @@ class userController extends Controller
         //
 
         $users = User::whereDoesntHave('roles', function ($query) {
-            $query->where('name', 'cliente');
-        })->paginate(10);
+        $query->where('name', 'cliente');
+        })->orderBy('created_at', 'desc')->paginate(5);
+        
         return view('admin.usuarios', ['users' => $users]);
     }
 

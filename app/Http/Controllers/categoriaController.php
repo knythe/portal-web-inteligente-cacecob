@@ -17,7 +17,7 @@ class categoriaController extends Controller
     public function index()
     {
         //
-        $categorias = categoria::paginate(5);
+        $categorias = categoria::orderBy('created_at', 'desc')->paginate(5);
         return view('admin.categorias', compact('categorias'));
     }
 

@@ -1,6 +1,6 @@
  <aside class="z-20 hidden w-64 overflow-y-auto bg-white dark:bg-gray-800 md:block flex-shrink-0">
      <div class="py-4 text-gray-500 dark:text-gray-400">
-         <a href="#" class="text-lg font-bold text-gray-800 dark:text-gray-200 text-center">
+         <a href="{{ route('dashboard') }}" class="text-lg font-bold text-gray-800 dark:text-gray-200 text-center">
              <!-- Logo claro -->
              <img src="/v1/assets/img/logo-light.svg" alt="Logo Claro" class="h-10 w-auto block dark:hidden mx-auto">
 
@@ -105,10 +105,12 @@
                          <path d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z"></path>
                          <path d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z"></path>
                      </svg>
-                     <span class="ml-4">Charts</span>
+                     <span class="ml-4">Reports</span>
                  </a>
              </li>
+
          </ul>
+
          <!-- <div class="px-6 my-6">
              <button class="flex items-center justify-between w-full px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
                  Create account

@@ -53,7 +53,7 @@ Route::middleware(['auth', 'role:admin'])->prefix('v1')->group(function () {
     Route::post('/categorias/{id}/toggle-estado', [categoriaController::class, 'toggleEstado'])->name('categorias.toggle.estado');
     Route::resource('/admin/servicios', servicioController::class);
     Route::post('/servicios/{id}/toggle-estado', [servicioController::class, 'toggleEstado'])->name('servicios.toggle.estado');
-
+    Route::patch('/clientes/{cliente}/estado', [clienteController::class, 'cambiarEstado'])->name('clientes.estado');
     Route::resource('/admin/clientes', clienteController::class);
 });
 

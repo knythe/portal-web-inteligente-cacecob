@@ -16,7 +16,7 @@ class clienteController extends Controller
     public function index()
     {
         //
-        $clientes = Cliente::orderBy('created_at', 'desc')->get();
+        $clientes = Cliente::orderBy('created_at', 'desc')->paginate(20);
         return view('admin.clientes', compact('clientes'));
     }
 
@@ -71,6 +71,23 @@ class clienteController extends Controller
             DB::rollBack();
             return redirect()->back()->with('error', 'Error al actualizar el cliente.');
         }
+    }
+
+    public function cambiarEstado(Request $request, Cliente $cliente)
+    {
+        $request->validate(['estado' => 'required|in:1,2,3,4']);
+        $cliente->estado = $request->estado;
+        $cliente->save();
+
+        // devolvemos JSON con el texto y clases nuevas
+        $info = [
+            1 => ['texto' => 'Visitante',     'bg' => 'bg-green-100 text-green-700'],
+            2 => ['texto' => 'Interesado',    'bg' => 'bg-green-100 text-green-700'],
+            3 => ['texto' => 'No interesado', 'bg' => 'bg-red-100  text-red-700'],
+            4 => ['texto' => 'Contacto',      'bg' => 'bg-red-100  text-red-700'],
+        ][$cliente->estado];
+
+        return response()->json($info);
     }
 
     /**

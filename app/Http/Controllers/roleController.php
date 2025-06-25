@@ -16,7 +16,7 @@ class roleController extends Controller
     public function index()
     {
         //
-        $roles = Role::with('permissions')->paginate(5);
+        $roles = Role::with('permissions')->orderBy('created_at', 'desc')->paginate(3);
         return view('admin.roles', compact('roles'));
     }
 

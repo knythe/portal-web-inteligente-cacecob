@@ -20,8 +20,10 @@ class servicioController extends Controller
     public function index()
     {
         //
-        $servicios = servicio::paginate(5);
+        $servicios = servicio::orderBy('created_at', 'desc')->paginate(10);
+
         return view('admin.servicios', compact('servicios'));
+        
     }
 
     /**

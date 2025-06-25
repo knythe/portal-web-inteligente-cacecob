@@ -29,7 +29,7 @@
     <!-- ===== Header End ===== -->
 
     <main>
-        <section class="gj do ir hj sp jr i pg" style="padding-bottom: 0px;">
+        <section id="contacto" class="gj do ir hj sp jr i pg" style="padding-bottom: 0px;">
             <!-- Hero Images -->
             <div class="xc fn zd/2 2xl:ud-w-187.5 bd 2xl:ud-h-171.5 h q r">
                 <img src="/assets/img/shape-01.svg" alt="shape" class="xc 2xl:ud-block h t -ud-left-[10%] ua">
@@ -103,10 +103,14 @@
                             <h4 class="ek tj ml il kk wm xl eq lb">
                                 <a href="{{ route('portal.show', $servicio->id) }}">{{$servicio -> titulo}}</a>
                             </h4>
+                            <br>
+                            <hr>
+                            <br>
                             <div class="tc wf ag">
                                 <img src="/assets/img/icon-calender.svg" alt="Calender" />
-                                <p>{{\Carbon\Carbon::parse($servicio -> fecha_inicio)->format('d/m/Y')}} - </p>
-                                <p>{{$servicio->horas_academicas}} Horas Académicas</p>
+                                <p>{{\Carbon\Carbon::parse($servicio -> fecha_inicio)->format('d/m/Y')}} | </p>
+                                <img src="/assets/img/icon-relojs.svg" alt="Calender" />
+                                <p>{{$servicio->horas_academicas}} H. A.</p>
                             </div>
                             <br>
                             <div class="text-end">
@@ -183,72 +187,42 @@
         </section>
         <!-- ===== Blog Grid End ===== -->
 
-        <section class="i pg gh ji">
+        <section id="recomendaciones" class="i pg gh ji">
             <!-- Section Title Start -->
-            <div x-data="{ sectionTitle: `Latest Blogs &amp; News`, sectionTitleText: `It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using.`}">
+            <div>
                 <div class="animate_top bb ze rj ki xn vq" data-sr-id="34" style="visibility: visible; opacity: 1; transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); transition: all, opacity 2.8s cubic-bezier(0.5, 0, 0, 1), transform 2.8s cubic-bezier(0.5, 0, 0, 1);">
-                    <h2 x-text="sectionTitle" class="fk vj pr kk wm on/5 gq/2 bb _b">Recomendaciones</h2>
-                    <p class="bb on/5 wo/5 hq" x-text="sectionTitleText">a</p>
+                    <h2 class="text-white fk vj pr kk wm on/5 gq/2 bb _b">Recomendaciones</h2>
+                    <p class="text-white bb on/5 wo/5 hq">¿No sabes por dónde empezar?, estos servicios han sido seleccionados especialmente para ti, basados en tus intereses recientes.</p>
                 </div>
-
-
             </div>
             <!-- Section Title End -->
-
             <div class="bb ye ki xn vq jb jo">
                 <div class="wc qf pn xo zf iq">
                     <!-- Blog Item -->
-                    <div class="animate_top sg vk rm xm" data-sr-id="35" style="visibility: visible; opacity: 1; transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); transition: all, opacity 2.8s cubic-bezier(0.5, 0, 0, 1), transform 2.8s cubic-bezier(0.5, 0, 0, 1);">
+                    @foreach ($recomendaciones as $rec)
+                    <div class="animate_top sg vk rm xm">
                         <div class="c rc i z-1 pg">
-                            <img class="w-full" src="" alt="Blog">
+                            <img class="w-full" src="{{ asset('storage/' . $rec->servicio->imagen) }}" alt="Blog" />
 
-                            <div class="im h r s df vd yc wg tc wf xf al hh/20 nl il z-10">
-                                <a href="./blog-single.html" class="vc ek rg lk gh sl ml il gi hi">Read More</a>
+                            <div
+                                class="im h r s df vd yc wg tc wf xf al hh/20 nl il z-10">
+                                <a href="{{ route('portal.show', $rec->servicio->id) }}" class="vc ek rg lk gh sl ml il gi hi">Leer más</a>
                             </div>
-                        </div>
-
-                        <div class="yh">
-                            <div class="tc uf wf ag jq">
-                                <div class="tc wf ag">
-                                    <img src="/assets/img/icon-man.svg" alt="User">
-                                    <p>Musharof Chy</p>
-                                </div>
-                                <div class="tc wf ag">
-                                    <img src="/assets/img/icon-calender.svg" alt="Calender">
-                                    <p>25 Dec, 2025</p>
-                                </div>
-                            </div>
-                            <h4 class="ek tj ml il kk wm xl eq lb">
-                                <a href="blog-single.html">aaa</a>
-                            </h4>
                         </div>
                     </div>
+                    @endforeach
 
                 </div>
+
             </div>
+
+
+
+
         </section>
         <!-- ===== CTA Start ===== -->
-        <h1>ola</h1>
-        @if($recomendaciones->isNotEmpty())
-        <div class="mt-6">
-            <h2 class="text-xl font-bold mb-4">Recomendaciones para ti</h2>
 
-            <ul class="space-y-4">
-                @foreach($recomendaciones as $recomendacion)
-                @php
-                $servicio = $recomendacion->servicio;
-                @endphp
 
-                @if($servicio)
-                <li class="p-4 bg-white shadow rounded">
-                    <h3 class="text-lg font-semibold">{{ $servicio->titulo }}</h3>
-                    <p class="text-gray-700">{{ $servicio->descripcion }}</p>
-                </li>
-                @endif
-                @endforeach
-            </ul>
-        </div>
-        @endif
 
 
 

@@ -70,6 +70,9 @@
                             <h4 class="ek tj ml il kk wm xl eq lb">
                                 <a href="{{ route('portal.show', $servicio->id) }}">{{$servicio -> titulo}}</a>
                             </h4>
+                            <br>
+                            <hr>
+                            <br>
                             <div class="tc wf ag">
                                 <img src="/assets/img/icon-calender.svg" alt="Calender" />
                                 <p>{{\Carbon\Carbon::parse($servicio -> fecha_inicio)->format('d/m/Y')}} - </p>
@@ -150,51 +153,7 @@
         </section>
         <!-- ===== Blog Grid End ===== -->
 
-        <section class="i pg gh ji">
-            <!-- Section Title Start -->
-            <div x-data="{ sectionTitle: `Latest Blogs &amp; News`, sectionTitleText: `It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using.`}">
-                <div class="animate_top bb ze rj ki xn vq" data-sr-id="34" style="visibility: visible; opacity: 1; transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); transition: all, opacity 2.8s cubic-bezier(0.5, 0, 0, 1), transform 2.8s cubic-bezier(0.5, 0, 0, 1);">
-                    <h2 x-text="sectionTitle" class="fk vj pr kk wm on/5 gq/2 bb _b">Recomendaciones</h2>
-                    <p class="bb on/5 wo/5 hq" x-text="sectionTitleText">a</p>
-                </div>
 
-
-            </div>
-            <!-- Section Title End -->
-
-            <div class="bb ye ki xn vq jb jo">
-                <div class="wc qf pn xo zf iq">
-                    <!-- Blog Item -->
-                    <div class="animate_top sg vk rm xm" data-sr-id="35" style="visibility: visible; opacity: 1; transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); transition: all, opacity 2.8s cubic-bezier(0.5, 0, 0, 1), transform 2.8s cubic-bezier(0.5, 0, 0, 1);">
-                        <div class="c rc i z-1 pg">
-                            <img class="w-full" src="" alt="Blog">
-
-                            <div class="im h r s df vd yc wg tc wf xf al hh/20 nl il z-10">
-                                <a href="./blog-single.html" class="vc ek rg lk gh sl ml il gi hi">Read More</a>
-                            </div>
-                        </div>
-
-                        <div class="yh">
-                            <div class="tc uf wf ag jq">
-                                <div class="tc wf ag">
-                                    <img src="/assets/img/icon-man.svg" alt="User">
-                                    <p>Musharof Chy</p>
-                                </div>
-                                <div class="tc wf ag">
-                                    <img src="/assets/img/icon-calender.svg" alt="Calender">
-                                    <p>25 Dec, 2025</p>
-                                </div>
-                            </div>
-                            <h4 class="ek tj ml il kk wm xl eq lb">
-                                <a href="blog-single.html">aaa</a>
-                            </h4>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        </section>
-        <!-- ===== CTA Start ===== -->
 
 
         <!-- ===== CTA End ===== -->

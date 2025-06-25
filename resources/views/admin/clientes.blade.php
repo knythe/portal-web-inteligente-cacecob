@@ -25,7 +25,7 @@
                                 <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
                             </svg>
                         </div>
-                        <input type="text" id="simple-search" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full pl-10 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Search" required="">
+                        <input type="text" id="searchInput" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full pl-10 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Search" required="">
                     </div>
                 </form>
             </div>
@@ -53,9 +53,29 @@
                     <!-- Dropdown con roles dinámicos -->
                     <div id="filterDropdown"
                         class="z-10 hidden w-48 p-3 bg-white rounded-lg shadow dark:bg-gray-700">
-                        <h6 class="mb-3 text-sm font-medium text-gray-900 dark:text-white">Filtrar por estado</h6>
                         <ul class="space-y-2 text-sm" aria-labelledby="filterDropdownButton">
-
+                            @foreach ($clientes->pluck('estado')->unique() as $clientestate)
+                            <li class="flex items-center">
+                                <input
+                                    type="checkbox"
+                                    name="filter[]"
+                                    value="{{ $clientestate }}"
+                                    id="filter-{{ \Illuminate\Support\Str::slug($clientestate) }}"
+                                    class="cliente-filter w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
+                                <label for="filter-{{ \Illuminate\Support\Str::slug($clientestate) }}"
+                                    class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-100">
+                                    @if ($clientestate == 1)
+                                    Visitante
+                                    @elseif ($clientestate == 2)
+                                    Interesado
+                                    @elseif ($clientestate == 3)
+                                    No interesado
+                                    @else
+                                    Contacto
+                                    @endif
+                                </label>
+                            </li>
+                            @endforeach
                         </ul>
                     </div>
                 </div>
@@ -71,13 +91,13 @@
                             <path clip-rule="evenodd" fill-rule="evenodd"
                                 d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" />
                         </svg>
-                        Add cliente ?
+                        Reportes
                     </a>
                 </div>
             </div>
         </div>
         <!-- end avanced tale -->
-        <table class="w-full whitespace-no-wrap">
+        <table class="w-full whitespace-no-wrap" id="clientesTable">
             <thead>
                 <tr class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
                     <th class="px-4 py-3">Cliente</th>
@@ -91,7 +111,7 @@
             <tbody
                 class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
                 @foreach ($clientes as $cliente)
-                <tr class="text-gray-700 dark:text-gray-400">
+                <tr class="text-gray-700 dark:text-gray-400" data-estado="{{ $cliente->estado }}">
                     <td class="px-4 py-3">
                         <div class="flex items-center text-sm">
                             <!-- Avatar with inset shadow -->
@@ -123,25 +143,42 @@
                     <td class="px-4 py-3 text-sm">
                         {{$cliente->cargo ?? '-'}}
                     </td>
-                    <td class="px-4 py-3 text-xs estado-cliente" data-id="{{ $cliente->id }}">
-                        @if ($cliente->estado == 1)
-                        <span class="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100">
-                            Visitante
-                        </span>
-                        @elseif ($cliente->estado == 2)
-                        <span class="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100">
-                            Interesado
-                        </span>
-                        @elseif ($cliente->estado == 3)
-                        <span class="px-2 py-1 font-semibold leading-tight text-red-700 bg-red-100 rounded-full dark:bg-red-700 dark:text-red-100">
-                            No interesado
-                        </span>
-                        @else
-                        <span class="px-2 py-1 font-semibold leading-tight text-red-700 bg-red-100 rounded-full dark:bg-red-700 dark:text-red-100">
-                            Contacto
-                        </span>
-                        @endif
+                    @php
+                    // utilidades
+                    $estados = [
+                    1 => ['texto' => 'Visitante', 'bg' => 'bg-green-100 text-green-700'],
+                    2 => ['texto' => 'Interesado', 'bg' => 'bg-green-100 text-green-700'],
+                    3 => ['texto' => 'No interesado', 'bg' => 'bg-red-100 text-red-700'],
+                    4 => ['texto' => 'Contacto', 'bg' => 'bg-red-100 text-red-700'],
+                    ];
+                    $actual = $estados[$cliente->estado];
+                    @endphp
+                    <td class="px-4 py-3 text-xs estado-cliente" data-id="{{ $cliente->id }}" data-estado="{{ $cliente->estado }}">
+                        <button
+                            type="button"
+                            class="estado-badge {{ $cliente->estado == 1 ? 'text-green-700 bg-green-100 dark:bg-green-700 dark:text-green-100' :
+                             ($cliente->estado == 2 ? 'text-orange-700 bg-orange-100 dark:text-white dark:bg-orange-600' :
+                             ($cliente->estado == 3 ? 'text-red-700 bg-red-100 dark:text-red-100 dark:bg-red-700' :
+                             'text-gray-700 bg-gray-100 dark:text-gray-100 dark:bg-gray-700')) }} 
+                             px-2 py-1 font-semibold leading-tight rounded-full">
+                            {{ $cliente->estado == 1 ? 'Visitante' :
+                            ($cliente->estado == 2 ? 'Interesado' :
+                            ($cliente->estado == 3 ? 'No interesado' : 'Contacto')) }}
+                        </button>
+
+                        <div class="estado-options hidden absolute z-10 mt-1 w-36 bg-white dark:bg-gray-800 border rounded shadow">
+                            @foreach ([1 => 'Visitante', 2 => 'Interesado', 3 => 'No interesado', 4 => 'Contacto'] as $estadoValue => $estadoTexto)
+                            <button
+                                type="button"
+                                class="block w-full px-4 py-2 text-sm text-left hover:bg-gray-100 dark:hover:bg-gray-700"
+                                data-id="{{ $cliente->id }}"
+                                data-estado="{{ $estadoValue }}">
+                                {{ $estadoTexto }}
+                            </button>
+                            @endforeach
+                        </div>
                     </td>
+
 
                     <td class="px-4 py-3 text-sm">
                         {{\Carbon\Carbon::parse($cliente -> created_at)->format('d/m/Y')}}
@@ -153,7 +190,73 @@
         </table>
     </div>
     <!--- paginate -->
+    <div
+        class="grid px-4 py-3 text-xs font-semibold tracking-wide text-gray-500 uppercase border-t dark:border-gray-700 bg-gray-50 sm:grid-cols-9 dark:text-gray-400 dark:bg-gray-800">
 
+        <span class="flex items-center col-span-3">
+            Showing
+            {{ $clientes->firstItem() }}-{{ $clientes->lastItem() }} of {{ $clientes->total() }}
+        </span>
+
+        <span class="col-span-2"></span>
+
+        <!-- Pagination -->
+        <span class="flex col-span-4 mt-2 sm:mt-auto sm:justify-end">
+            <nav aria-label="Table navigation">
+                <ul class="inline-flex items-center">
+                    <!-- Previous Button -->
+                    <li>
+                        <button
+                            class="px-3 py-1 rounded-md rounded-l-lg focus:outline-none focus:shadow-outline-purple"
+                            @if(!$clientes->onFirstPage()) onclick="window.location='{{ $clientes->previousPageUrl() }}'" @else disabled @endif
+                            aria-label="Previous">
+                            <svg class="w-4 h-4 fill-current" aria-hidden="true" viewBox="0 0 20 20">
+                                <path d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
+                                    clip-rule="evenodd" fill-rule="evenodd"></path>
+                            </svg>
+                        </button>
+                    </li>
+
+                    <!-- Page Numbers -->
+                    @foreach ($clientes->getUrlRange(1, $clientes->lastPage()) as $page => $url)
+                    @if ($page == $clientes->currentPage())
+                    <li>
+                        <button
+                            class="px-3 py-1 text-white transition-colors duration-150 bg-purple-600 border border-r-0 border-purple-600 rounded-md focus:outline-none focus:shadow-outline-purple">
+                            {{ $page }}
+                        </button>
+                    </li>
+                    @elseif ($page == 1 || $page == $clientes->lastPage() || ($page >= $clientes->currentPage() - 1 && $page <= $clientes->currentPage() + 1))
+                        <li>
+                            <button
+                                class="px-3 py-1 rounded-md focus:outline-none focus:shadow-outline-purple"
+                                onclick="window.location='{{ $url }}'">
+                                {{ $page }}
+                            </button>
+                        </li>
+                        @elseif ($page == $clientes->currentPage() - 2 || $page == $clientes->currentPage() + 2)
+                        <li>
+                            <span class="px-3 py-1">...</span>
+                        </li>
+                        @endif
+                        @endforeach
+
+                        <!-- Next Button -->
+                        <li>
+                            <button
+                                class="px-3 py-1 rounded-md rounded-r-lg focus:outline-none focus:shadow-outline-purple"
+                                @if($clientes->hasMorePages()) onclick="window.location='{{ $clientes->nextPageUrl() }}'" @else disabled @endif
+                                aria-label="Next">
+                                <svg class="w-4 h-4 fill-current" aria-hidden="true" viewBox="0 0 20 20">
+                                    <path d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                                        clip-rule="evenodd" fill-rule="evenodd"></path>
+                                </svg>
+                            </button>
+                        </li>
+                </ul>
+            </nav>
+        </span>
+    </div>
     <!--- end paginate -->
 
 </div>
