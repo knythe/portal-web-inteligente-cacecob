@@ -51,27 +51,28 @@
             <!-- Filtro: 3/12 -->
             <div class="w-full md:w-3/12 flex justify-end">
                 <div class="flex items-center space-x-3 w-full md:w-auto">
+                    <!-- Botón -->
                     <button id="filterDropdownButton" data-dropdown-toggle="filterDropdown"
-                        class="w-full md:w-auto flex items-center justify-center py-2 px-4 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
-                        type="button">
-                        <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="h-4 w-4 mr-2 text-gray-400"
-                            viewBox="0 0 20 20" fill="currentColor">
+                        class="w-full md:w-auto flex items-center justify-center py-2 px-4 text-sm font-medium text-gray-800 bg-gray-100 border border-gray-300 rounded-lg hover:bg-gray-200 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-gray-700">
+                        <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true"
+                            class="h-4 w-4 mr-2 text-gray-600 dark:text-gray-400" viewBox="0 0 20 20" fill="currentColor">
                             <path fill-rule="evenodd"
                                 d="M3 3a1 1 0 011-1h12a1 1 0 011 1v3a1 1 0 01-.293.707L12 11.414V15a1 1 0 01-.293.707l-2 2A1 1 0 018 17v-5.586L3.293 6.707A1 1 0 013 6V3z"
                                 clip-rule="evenodd" />
                         </svg>
                         Filter
-                        <svg class="-mr-1 ml-1.5 w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
-                            xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <svg class="-mr-1 ml-1.5 w-5 h-5 text-gray-600 dark:text-gray-400" fill="currentColor"
+                            viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                             <path clip-rule="evenodd" fill-rule="evenodd"
                                 d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" />
                         </svg>
                     </button>
 
-                    <!-- Dropdown con roles dinámicos -->
+                    <!-- Dropdown con categorías y estados -->
                     <div id="filterDropdown"
-                        class="z-10 hidden w-48 p-3 bg-white rounded-lg shadow dark:bg-gray-700">
-                        <h6 class="mb-3 text-sm font-medium text-gray-900 dark:text-white">Filtrar por categoria</h6>
+                        class="z-10 hidden w-48 p-3 rounded-lg shadow-lg bg-white text-gray-800 dark:bg-gray-800 dark:text-gray-100 border border-gray-200 dark:border-gray-600">
+                        <!-- Categoría -->
+                        <h6 class="mb-3 text-sm font-semibold text-gray-800 dark:text-gray-100">Filtrar por categoría</h6>
                         <ul class="space-y-2 text-sm" aria-labelledby="filterDropdownButton">
                             @foreach ($servicios->pluck('categoria.nombre')->unique() as $categoriaNombre)
                             <li class="flex items-center">
@@ -80,16 +81,17 @@
                                     name="filter[]"
                                     value="{{ $categoriaNombre }}"
                                     id="filter-{{ \Illuminate\Support\Str::slug($categoriaNombre) }}"
-                                    class="categoria-filter w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
+                                    class="categoria-filter w-4 h-4 text-black border-gray-300 rounded focus:ring-black checked:bg-black checked:border-black dark:bg-gray-700 dark:border-gray-500 dark:checked:bg-black dark:checked:border-black">
                                 <label for="filter-{{ \Illuminate\Support\Str::slug($categoriaNombre) }}"
-                                    class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-100">
+                                    class="ml-2 text-sm font-medium text-gray-800 dark:text-gray-100">
                                     {{ $categoriaNombre }}
                                 </label>
                             </li>
                             @endforeach
                         </ul>
                         <br>
-                        <h6 class="mb-3 text-sm font-medium text-gray-900 dark:text-white">Filtrar por estado</h6>
+                        <!-- Estado -->
+                        <h6 class="mt-5 mb-3 text-sm font-semibold text-gray-800 dark:text-gray-100">Filtrar por estado</h6>
                         <ul class="space-y-2 text-sm" aria-labelledby="filterDropdownButton">
                             @foreach ($servicios->pluck('estado')->unique() as $serviciostate)
                             <li class="flex items-center">
@@ -98,9 +100,9 @@
                                     name="filter[]"
                                     value="{{ $serviciostate }}"
                                     id="filter-{{ \Illuminate\Support\Str::slug($serviciostate) }}"
-                                    class="servicio-filter w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
+                                    class="servicio-filter w-4 h-4 text-black border-gray-300 rounded focus:ring-black checked:bg-black checked:border-black dark:bg-gray-700 dark:border-gray-500 dark:checked:bg-black dark:checked:border-black">
                                 <label for="filter-{{ \Illuminate\Support\Str::slug($serviciostate) }}"
-                                    class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-100">
+                                    class="ml-2 text-sm font-medium text-gray-800 dark:text-gray-100">
                                     @if ($serviciostate == 1)
                                     Active
                                     @else
@@ -113,6 +115,7 @@
                     </div>
                 </div>
             </div>
+
             <!-- Botón: 3/12 -->
             <div class="w-full md:w-3/12 flex justify-end">
                 <div class="flex items-center space-x-3 w-full md:w-auto">
@@ -124,6 +127,18 @@
                                 d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" />
                         </svg>
                         Add servicio
+                    </a>
+                </div>
+            </div>
+            <!-- Botón: export excel -->
+            <div class="w-full md:w-3/12 flex justify-end">
+                <div class="flex items-center space-x-3 w-full md:w-auto">
+                    <a href="{{ route('export-excel-servicio') }}"
+                        class="w-full md:w-auto flex items-center justify-center py-2 px-4 text-sm font-medium text-green bg-teal-600 rounded hover:bg-teal-700 transition rounded-lg focus:outline-none focus:shadow-outline-green">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+                            <path fill="none" d="M0 0h24v24H0z"></path>
+                            <path d="M2.859 2.877l12.57-1.795a.5.5 0 0 1 .571.495v20.846a.5.5 0 0 1-.57.495L2.858 21.123a1 1 0 0 1-.859-.99V3.867a1 1 0 0 1 .859-.99zM4 4.735v14.53l10 1.429V3.306L4 4.735zM17 19h3V5h-3V3h4a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1h-4v-2zm-6.8-7l2.8 4h-2.4L9 13.714 7.4 16H5l2.8-4L5 8h2.4L9 10.286 10.6 8H13l-2.8 4z" fill="#fff"></path>
+                        </svg>
                     </a>
                 </div>
             </div>

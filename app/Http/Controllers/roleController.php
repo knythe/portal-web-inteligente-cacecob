@@ -10,9 +10,16 @@ use Illuminate\Support\Facades\Log;
 
 class roleController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+
+    function __construct()
+    {
+
+        $this->middleware('permission:ver-roles', ['only' => ['index']]);
+        $this->middleware('permission:create-roles', ['only' => ['create']]);
+        $this->middleware('permission:edit-roles', ['only' => ['edit']]);
+        $this->middleware('permission:update-roles', ['only' => ['toggleEstado']]);
+    }
+
     public function index()
     {
         //
@@ -38,10 +45,27 @@ class roleController extends Controller
 
         // Validación
         $validated = $request->validate([
-            'name' => 'required|string|max:255|unique:roles,name',
-            'permission' => 'required|array',
+            'name' => [
+                'required',
+                'string',
+                'max:255',
+                'regex:/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/',
+                'unique:roles,name' // <- Esto valida duplicados
+            ],
+            'permission' => 'required|array|min:1',
             'permission.*' => 'exists:permissions,id'
+        ], [
+            'name.required' => 'El nombre del rol es obligatorio.',
+            'name.string' => 'El nombre del rol debe ser una cadena de texto válida.',
+            'name.max' => 'El nombre del rol no debe exceder los 255 caracteres.',
+            'name.regex' => 'El nombre solo puede contener letras y espacios.',
+            'name.unique' => 'Este nombre de rol ya existe.',
+            'permission.required' => 'Debes seleccionar al menos un permiso.',
+            'permission.array' => 'Los permisos deben enviarse en formato de lista.',
+            'permission.min' => 'Debes seleccionar al menos un permiso.',
+            'permission.*.exists' => 'Uno o más permisos seleccionados no son válidos.'
         ]);
+
 
         try {
             DB::beginTransaction();
@@ -93,11 +117,23 @@ class roleController extends Controller
     {
         //
         // Validación
-        $validated = $request->validate([
-            'name' => 'required|string|max:255|unique:roles,name,' . $id,
-            'permission' => 'required|array',
-            'permission.*' => 'exists:permissions,id'
-        ]);
+        $validated = $request->validate(
+            [
+                'name' => 'required|string|max:255|unique:roles,name,' . $id,
+                'permission' => 'required|array',
+                'permission.*' => 'exists:permissions,id',
+            ],
+            [
+                'name.required' => 'El nombre del rol es obligatorio.',
+                'name.string' => 'El nombre del rol debe ser una cadena de texto.',
+                'name.max' => 'El nombre del rol no debe superar los 255 caracteres.',
+                'name.unique' => 'Este nombre de rol ya está registrado.',
+
+                'permission.required' => 'Debes seleccionar al menos un permiso.',
+                'permission.array' => 'Los permisos deben ser una lista válida.',
+                'permission.*.exists' => 'Uno o más permisos seleccionados no existen.',
+            ]
+        );
 
         try {
             DB::beginTransaction();
@@ -132,35 +168,5 @@ class roleController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
-    {
-        //
-        //
-        try {
-            DB::beginTransaction();
-
-            // Buscar el rol
-            $role = Role::findOrFail($id);
-
-            // Verificar si el rol está en uso
-            if ($role->users->count() > 0) {
-                return redirect()->route('roles.index')->withErrors(['error' => 'No se puede eliminar el rol porque está asignado a uno o más usuarios.']);
-            }
-
-            // Eliminar los permisos asociados al rol
-            $role->syncPermissions([]);
-
-            // Eliminar el rol
-            $role->delete();
-
-            DB::commit();
-
-            return redirect()->route('roles.index')->with('success', 'Rol eliminado correctamente.');
-        } catch (\Exception $e) {
-            DB::rollBack();
-            Log::error('Error al eliminar el rol: ' . $e->getMessage());
-
-            return redirect()->route('roles.index')->withErrors(['error' => 'Hubo un error al eliminar el rol.']);
-        }
-    }
+    public function destroy(string $id) {}
 }

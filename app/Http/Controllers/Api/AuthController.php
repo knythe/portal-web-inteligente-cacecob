@@ -11,11 +11,19 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Laravel\Socialite\Facades\Socialite;
 use Illuminate\Support\Str;
 
 class AuthController extends Controller
 {
+
+    function __construct()
+    {
+
+        $this->middleware('permission:ver-dashboard', ['only' => ['dashboard']]);
+    }
+
     // view login
     public function index()
     {
@@ -101,27 +109,40 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
-        //dd($request);
-        $credentials = $request->only('email', 'password');
+        // Valida que vengan los campos
+        $request->validate([
+            'email'    => 'required|email',
+            'password' => 'required|string',
+        ]);
 
-        if (Auth::attempt($credentials)) {
-            $request->session()->regenerate();
+        // 1. Buscar al usuario por correo
+        $user = User::where('email', $request->email)->first();
 
-            $user = Auth::user();
-
-            if ($user->hasRole('admin')) {
-                return redirect()->route('dashboard');
-            } elseif ($user->hasRole('cliente')) {
-                return redirect()->route('portal');
-            }
-
-            Auth::logout(); // fallback si no tiene roles válidos
-            return back()->withErrors(['email' => 'Rol de usuario no permitido.']);
+        if (!$user) {
+            // Usuario no existe
+            return back()->withErrors(['email' => 'Usuario no encontrado.'])->withInput();
         }
 
-        return back()->withErrors([
-            'email' => 'Credenciales incorrectas.',
-        ]);
+        // 2. Revisar estado (1 = activo, 0 = suspendido)
+        if ($user->estado != 1) {
+            return back()->withErrors(['email' => 'Usuario suspendido.'])->withInput();
+        }
+
+        // 3. Verificar contraseña
+        if (!Hash::check($request->password, $user->password)) {
+            return back()->withErrors(['password' => 'Contraseña incorrecta.'])->withInput();
+        }
+
+        // 4. Autenticar y regenerar sesión
+        Auth::login($user);
+        $request->session()->regenerate();
+
+        // 5. Redirigir según rol
+        if ($user->hasRole('cliente')) {
+            return redirect()->route('portal');
+        }
+
+        return redirect()->route('dashboard');   // para roles distintos de 'cliente'
     }
 
     public function logout(Request $request)

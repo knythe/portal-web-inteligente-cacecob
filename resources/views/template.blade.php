@@ -14,11 +14,12 @@
     <script src="/v1/assets/js/init-functions.js"></script>
     <script src="/v1/assets/js/advance-funcion-tables.js"></script>
     <script src="https://unpkg.com/flowbite@latest/dist/flowbite.min.js"></script>
+    
 
     <link href="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.css" rel="stylesheet" />
     @stack('css')
 </head>
-
+@auth
 <body>
     <div class="flex h-screen bg-gray-50 dark:bg-gray-900" :class="{ 'overflow-hidden': isSideMenuOpen}">
         <!-- Desktop sidebar -->
@@ -46,5 +47,8 @@
         </div>
     </div>
 </body>
-
+@endauth
+@guest
+@include('welcome')
+@endguest
 </html>

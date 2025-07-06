@@ -44,7 +44,7 @@ use Spatie\Permission\Models\Role;
 
 
 //  Rutas protegidas para admin
-Route::middleware(['auth', 'role:admin'])->prefix('v1')->group(function () {
+Route::middleware(['auth', 'exclude_cliente'])->prefix('v1')->group(function () {
     Route::get('/admin/dashboard', [AuthController::class, 'dashboard'])->name('dashboard');
     Route::resource('/admin/usuarios', userController::class);
     Route::post('/usuarios/{id}/toggle-estado', [UserController::class, 'toggleEstado'])->name('usuarios.toggle.estado');
@@ -53,8 +53,10 @@ Route::middleware(['auth', 'role:admin'])->prefix('v1')->group(function () {
     Route::post('/categorias/{id}/toggle-estado', [categoriaController::class, 'toggleEstado'])->name('categorias.toggle.estado');
     Route::resource('/admin/servicios', servicioController::class);
     Route::post('/servicios/{id}/toggle-estado', [servicioController::class, 'toggleEstado'])->name('servicios.toggle.estado');
+    Route::get('/export/excel/1',[servicioController::class,'exportexcel'])->name('export-excel-servicio');
     Route::patch('/clientes/{cliente}/estado', [clienteController::class, 'cambiarEstado'])->name('clientes.estado');
     Route::resource('/admin/clientes', clienteController::class);
+    Route::get('/export/excel/2',[clienteController::class,'exportexcel'])->name('export-excel-cliente');
 });
 
 // Rutas públicas o para clientes autenticados

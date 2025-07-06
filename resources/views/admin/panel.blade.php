@@ -12,7 +12,10 @@
     window.interesadosData = @json($interesados);
     window.noInteresadosData = @json($noInteresados);
 </script>
+
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
 @endpush
 
 
@@ -53,9 +56,9 @@
     </div>
     <!-- Card -->
     <div class="flex items-center p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
-        <div class="p-3 mr-4 text-blue-500 bg-blue-100 rounded-full dark:text-blue-100 dark:bg-blue-500">
-            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                <path d="M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74 11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l1-1H14a1 1 0 00.894-.553l3-6A1 1 0 0017 3H6.28l-.31-1.243A1 1 0 005 1H3zM16 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM6.5 18a1.5 1.5 0 100-3 1.5 1.5 0 000 3z"></path>
+        <div class="p-3 mr-4 text-red-700 bg-red-100 rounded-full dark:text-white dark:bg-red-600">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+                <path fill-rule="evenodd" d="M5.25 2.25a3 3 0 0 0-3 3v4.318a3 3 0 0 0 .879 2.121l9.58 9.581c.92.92 2.39 1.186 3.548.428a18.849 18.849 0 0 0 5.441-5.44c.758-1.16.492-2.629-.428-3.548l-9.58-9.581a3 3 0 0 0-2.122-.879H5.25ZM6.375 7.5a1.125 1.125 0 1 0 0-2.25 1.125 1.125 0 0 0 0 2.25Z" clip-rule="evenodd" />
             </svg>
         </div>
         <div>
@@ -120,6 +123,11 @@
         <!-- Gráfico -->
         <canvas id="clientesLineChart" width="480" height="240"></canvas>
     </div>
+
+
+ 
+
+
 
 </div>
 @endsection

@@ -133,23 +133,6 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
-/*Define un componente Alpine.js que controla la apertura y cierre de un modal de confirmación para 
-eliminar un rol, guarda el id del rol que se quiere eliminar.*/
-function deleteRoleModal() {
-    return {
-        isModalOpen: false,
-        roleIdToDelete: null,
-        openModal(id) {
-            this.roleIdToDelete = id;
-            this.isModalOpen = true;
-        },
-        closeModal() {
-            this.isModalOpen = false;
-            this.roleIdToDelete = null;
-        },
-    };
-}
-
 /*funcion para mostrar graficos dashboard*/
 document.addEventListener("DOMContentLoaded", function () {
     // === BARRAS ===
@@ -220,81 +203,135 @@ document.addEventListener("DOMContentLoaded", function () {
 function descargarGrafico(canvasId, filename) {
     const canvas = document.getElementById(canvasId);
     const enlace = document.createElement("a");
-    enlace.href = canvas.toDataURL("image/png");
-    enlace.download = `${filename}.png`;
+    enlace.href = canvas.toDataURL("image/jpg");
+    enlace.download = `${filename}.jpg`;
     enlace.click();
 }
 /*funcion para cambiar estado del cliente*/
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener("DOMContentLoaded", () => {
     const estados = {
         1: {
-            texto: 'Visitante',
-            clases: 'px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100',
+            texto: "Visitante",
+            clases: "px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100",
         },
         2: {
-            texto: 'Interesado',
-            clases: 'px-2 py-1 font-semibold leading-tight text-orange-700 bg-orange-100 rounded-full dark:text-white dark:bg-orange-600',
+            texto: "Interesado",
+            clases: "px-2 py-1 font-semibold leading-tight text-orange-700 bg-orange-100 rounded-full dark:text-white dark:bg-orange-600",
         },
         3: {
-            texto: 'No interesado',
-            clases: 'px-2 py-1 font-semibold leading-tight text-red-700 bg-red-100 rounded-full dark:text-red-100 dark:bg-red-700',
+            texto: "No interesado",
+            clases: "px-2 py-1 font-semibold leading-tight text-red-700 bg-red-100 rounded-full dark:text-red-100 dark:bg-red-700",
         },
         4: {
-            texto: 'Contacto',
-            clases: 'px-2 py-1 font-semibold leading-tight text-gray-700 bg-gray-100 rounded-full dark:text-gray-100 dark:bg-gray-700',
-        }
+            texto: "Contacto",
+            clases: "px-2 py-1 font-semibold leading-tight text-gray-700 bg-gray-100 rounded-full dark:text-gray-100 dark:bg-gray-700",
+        },
     };
 
     // Toggle dropdown de cambio de estado
-    document.querySelectorAll('.estado-badge').forEach(badge => {
-        badge.addEventListener('click', () => {
+    document.querySelectorAll(".estado-badge").forEach((badge) => {
+        badge.addEventListener("click", () => {
             // Cierra cualquier otro dropdown abierto
-            document.querySelectorAll('.estado-options').forEach(opt => opt.classList.add('hidden'));
-            badge.nextElementSibling.classList.toggle('hidden');
+            document
+                .querySelectorAll(".estado-options")
+                .forEach((opt) => opt.classList.add("hidden"));
+            badge.nextElementSibling.classList.toggle("hidden");
         });
     });
 
     // Evento de selección de nuevo estado
-    document.querySelectorAll('.estado-options button').forEach(btn => {
-        btn.addEventListener('click', () => {
+    document.querySelectorAll(".estado-options button").forEach((btn) => {
+        btn.addEventListener("click", () => {
             const idCliente = btn.dataset.id;
             const nuevoEstado = btn.dataset.estado;
-            const fila = btn.closest('tr');
-            const badge = fila.querySelector('.estado-badge');
-            const opciones = fila.querySelector('.estado-options');
+            const fila = btn.closest("tr");
+            const badge = fila.querySelector(".estado-badge");
+            const opciones = fila.querySelector(".estado-options");
 
             // Opcional: petición AJAX para guardar en backend
             fetch(`/v1/clientes/${idCliente}/estado`, {
-                method: 'PATCH',
+                method: "PATCH",
                 headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                    "Content-Type": "application/json",
+                    "X-CSRF-TOKEN": document
+                        .querySelector('meta[name="csrf-token"]')
+                        .getAttribute("content"),
                 },
-                body: JSON.stringify({ estado: nuevoEstado })
+                body: JSON.stringify({ estado: nuevoEstado }),
             })
-            .then(res => res.json())
-            .then(() => {
-                // Actualiza visualmente
-                badge.textContent = estados[nuevoEstado].texto;
-                badge.className = `estado-badge ${estados[nuevoEstado].clases}`;
-                badge.dataset.estado = nuevoEstado;
-                fila.dataset.estado = nuevoEstado;
-                opciones.classList.add('hidden');
+                .then((res) => res.json())
+                .then(() => {
+                    // Actualiza visualmente
+                    badge.textContent = estados[nuevoEstado].texto;
+                    badge.className = `estado-badge ${estados[nuevoEstado].clases}`;
+                    badge.dataset.estado = nuevoEstado;
+                    fila.dataset.estado = nuevoEstado;
+                    opciones.classList.add("hidden");
 
-                // Opcional: dispara evento para filtro
-                const evento = new CustomEvent('estadoActualizado', {
-                    detail: { idCliente, nuevoEstado }
+                    // Opcional: dispara evento para filtro
+                    const evento = new CustomEvent("estadoActualizado", {
+                        detail: { idCliente, nuevoEstado },
+                    });
+                    document.dispatchEvent(evento);
                 });
-                document.dispatchEvent(evento);
-            });
         });
     });
 
     // Cierre global al hacer clic fuera
-    document.addEventListener('click', (e) => {
-        if (!e.target.closest('.estado-badge') && !e.target.closest('.estado-options')) {
-            document.querySelectorAll('.estado-options').forEach(opt => opt.classList.add('hidden'));
+    document.addEventListener("click", (e) => {
+        if (
+            !e.target.closest(".estado-badge") &&
+            !e.target.closest(".estado-options")
+        ) {
+            document
+                .querySelectorAll(".estado-options")
+                .forEach((opt) => opt.classList.add("hidden"));
         }
     });
 });
+/*funcion para previsualizar imagenes servicios*/
+document.addEventListener("DOMContentLoaded", function () {
+    const input = document.getElementById("img_servicio");
+    const previewImage = document.getElementById("preview-image");
 
+    if (input && previewImage) {
+        input.addEventListener("change", function (event) {
+            const file = event.target.files[0];
+
+            if (file && file.type.startsWith("image/")) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    previewImage.src = e.target.result;
+                    previewImage.classList.remove("hidden");
+                };
+                reader.readAsDataURL(file);
+            } else {
+                previewImage.src = "#";
+                previewImage.classList.add("hidden");
+            }
+        });
+    }
+});
+/*funcion para previsualizar imagenes usuarios*/
+document.addEventListener("DOMContentLoaded", function () {
+    const input = document.getElementById("img_user");
+    const previewImage = document.getElementById("preview-image");
+
+    if (input && previewImage) {
+        input.addEventListener("change", function (event) {
+            const file = event.target.files[0];
+
+            if (file && file.type.startsWith("image/")) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    previewImage.src = e.target.result;
+                    previewImage.classList.remove("hidden");
+                };
+                reader.readAsDataURL(file);
+            } else {
+                previewImage.src = "#";
+                previewImage.classList.add("hidden");
+            }
+        });
+    }
+});

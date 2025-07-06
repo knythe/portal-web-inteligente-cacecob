@@ -17,17 +17,25 @@ use Spatie\Permission\Models\Role;
 
 class userController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+
+    function __construct()
+    {
+
+        $this->middleware('permission:ver-usuarios', ['only' => ['index']]);
+        $this->middleware('permission:create-usuarios', ['only' => ['create']]);
+        $this->middleware('permission:edit-usuarios', ['only' => ['edit']]);
+        $this->middleware('permission:update-usuarios', ['only' => ['toggleEstado']]);
+    }
+
+
     public function index()
     {
         //
 
         $users = User::whereDoesntHave('roles', function ($query) {
-        $query->where('name', 'cliente');
+            $query->where('name', 'cliente');
         })->orderBy('created_at', 'desc')->paginate(5);
-        
+
         return view('admin.usuarios', ['users' => $users]);
     }
 

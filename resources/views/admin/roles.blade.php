@@ -50,25 +50,29 @@
             <div class="w-full md:w-3/12 flex justify-end">
                 <div class="flex items-center space-x-3 w-full md:w-auto">
                     <button id="filterDropdownButton" data-dropdown-toggle="filterDropdown"
-                        class="w-full md:w-auto flex items-center justify-center py-2 px-4 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
-                        type="button">
-                        <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="h-4 w-4 mr-2 text-gray-400"
-                            viewBox="0 0 20 20" fill="currentColor">
+                        class="w-full md:w-auto flex items-center justify-center py-2 px-4 text-sm font-medium
+           text-gray-800 bg-gray-100 border border-gray-300 rounded-lg
+           hover:bg-gray-200 hover:text-gray-900
+           focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500
+           dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600
+           dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-gray-700">
+                        <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true"
+                            class="h-4 w-4 mr-2 text-gray-600 dark:text-gray-400" viewBox="0 0 20 20" fill="currentColor">
                             <path fill-rule="evenodd"
                                 d="M3 3a1 1 0 011-1h12a1 1 0 011 1v3a1 1 0 01-.293.707L12 11.414V15a1 1 0 01-.293.707l-2 2A1 1 0 018 17v-5.586L3.293 6.707A1 1 0 013 6V3z"
                                 clip-rule="evenodd" />
                         </svg>
                         Filter
-                        <svg class="-mr-1 ml-1.5 w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
-                            xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <svg class="-mr-1 ml-1.5 w-5 h-5 text-gray-600 dark:text-gray-400" fill="currentColor"
+                            viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                             <path clip-rule="evenodd" fill-rule="evenodd"
                                 d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" />
                         </svg>
                     </button>
 
+
                     <!-- Dropdown con roles dinámicos -->
-                    <div id="filterDropdown"
-                        class="z-10 hidden w-48 p-3 bg-white rounded-lg shadow dark:bg-gray-700">
+                    <div id="filterDropdown" class="z-10 hidden w-48 p-3 rounded-lg shadow-lg bg-white text-gray-800 dark:bg-gray-800 dark:text-gray-100 border border-gray-200 dark:border-gray-600">
                         <ul class="space-y-2 text-sm" aria-labelledby="filterDropdownButton">
                             @foreach ($roles->pluck('name')->unique() as $roleName)
                             <li class="flex items-center">
@@ -77,11 +81,13 @@
                                     name="filter[]"
                                     value="{{ $roleName }}"
                                     id="filter-{{ \Illuminate\Support\Str::slug($roleName) }}"
-                                    class="role-filter w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
+                                    class="role-filter w-4 h-4 text-black border-gray-300 rounded focus:ring-black checked:bg-black checked:border-black dark:bg-gray-700 dark:border-gray-500 dark:checked:bg-black dark:checked:border-black">
+
                                 <label for="filter-{{ \Illuminate\Support\Str::slug($roleName) }}"
-                                    class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-100">
+                                    class="ml-2 text-sm font-medium text-gray-800 dark:text-gray-100">
                                     {{ $roleName }}
                                 </label>
+
                             </li>
                             @endforeach
                         </ul>
@@ -151,25 +157,6 @@
                                         <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"></path>
                                     </svg>
                                 </a>
-                                <!--<button @click="openModal({{ $rol->id }})"
-                                    class="flex items-center justify-center px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
-                                    aria-label="Delete">
-                                    <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
-                                        <path fill-rule="evenodd"
-                                            d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z"
-                                            clip-rule="evenodd"></path>
-                                    </svg>
-                                </button>-->
-                                <button @click="openModal({{ $rol->id }})"
-                                    class="flex items-center justify-center px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
-                                    aria-label="Delete">
-                                    <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20">
-                                        <path fill-rule="evenodd"
-                                            d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z"
-                                            clip-rule="evenodd"></path>
-                                    </svg>
-                                </button>
-
                             </div>
                         </td>
                     </tr>
@@ -250,59 +237,6 @@
         </div>
         <!--- end paginate -->
 
-        @foreach ($roles as $rol)
-        <!-- Modal -->
-        <div x-show="isModalOpen" x-transition:enter="transition ease-out duration-150"
-            x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
-            x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100"
-            x-transition:leave-end="opacity-0" class="fixed inset-0 z-30 flex items-end bg-black bg-opacity-50 sm:items-center sm:justify-center"
-            style="display: none;">
-            <div x-show="isModalOpen" x-transition:enter="transition ease-out duration-150"
-                x-transition:enter-start="opacity-0 transform translate-y-1/2"
-                x-transition:enter-end="opacity-100"
-                x-transition:leave="transition ease-in duration-150"
-                x-transition:leave-start="opacity-100"
-                x-transition:leave-end="opacity-0  transform translate-y-1/2"
-                @click.away="closeModal"
-                class="w-full px-6 py-4 overflow-hidden bg-white rounded-t-lg dark:bg-gray-800 sm:rounded-lg sm:m-4 sm:max-w-xl"
-                role="dialog" id="modal">
-                <header class="flex justify-end">
-                    <button
-                        class="inline-flex items-center justify-center w-6 h-6 text-gray-400 transition-colors duration-150 rounded dark:hover:text-gray-200 hover: hover:text-gray-700"
-                        aria-label="close" @click="closeModal">
-                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20" role="img" aria-hidden="true">
-                            <path
-                                d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                                clip-rule="evenodd" fill-rule="evenodd"></path>
-                        </svg>
-                    </button>
-                </header>
-                <div class="mt-4 mb-6">
-                    <p class="mb-2 text-lg font-semibold text-gray-700 dark:text-gray-300">
-                        Eliminar rol
-                    </p>
-                    <p class="text-sm text-gray-700 dark:text-gray-400">
-                        ¿Estás seguro que deseas eliminar este rol ?
-                    </p>
-                </div>
-                <footer
-                    class="flex flex-col items-center justify-end px-6 py-3 -mx-6 -mb-4 space-y-4 sm:space-y-0 sm:space-x-6 sm:flex-row bg-gray-50 dark:bg-gray-800">
-                    <button @click="closeModal"
-                        class="w-full px-5 py-3 text-sm font-medium leading-5 text-white text-gray-700 transition-colors duration-150 border border-gray-300 rounded-lg dark:text-gray-400 sm:px-4 sm:py-2 sm:w-auto active:bg-transparent hover:border-gray-500 focus:border-gray-500 active:text-gray-500 focus:outline-none focus:shadow-outline-gray">
-                        Cancelar
-                    </button>
-                    <form :action="`/v1/admin/roles/${roleIdToDelete}`" method="POST" class="w-full sm:w-auto">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit"
-                            class="w-full px-5 py-3 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg sm:px-4 sm:py-2 sm:w-auto active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
-                            Aceptar
-                        </button>
-                    </form>
-                </footer>
-            </div>
-        </div>
-        @endforeach
     </div>
 </div>
 

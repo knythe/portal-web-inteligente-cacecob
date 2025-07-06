@@ -23,8 +23,19 @@ class storeCategoriasRequest extends FormRequest
     {
         return [
             //
-            'nombre' => 'required|string|max:80',
-            'descripcion' => 'nullable|string',
+            'nombre' => ['required', 'string', 'max:80', 'regex:/^[A-Za-z0-9\s]+$/'],
+            'descripcion' => ['nullable', 'string'],
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'nombre.required' => 'El campo nombre es obligatorio.',
+            'nombre.string' => 'El nombre debe ser una cadena de texto válida.',
+            'nombre.max' => 'El nombre no debe tener más de 80 caracteres.',
+            'nombre.regex' => 'El nombre solo puede contener letras, números y espacios.',
+            'descripcion.string' => 'La descripción debe ser una cadena de texto válida.',
         ];
     }
 }

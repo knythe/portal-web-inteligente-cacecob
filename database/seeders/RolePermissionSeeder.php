@@ -21,18 +21,28 @@ class RolePermissionSeeder extends Seeder
         // Permisos (puedes extenderlo)
         $permissions = [
             'ver-dashboard',
+            'ver-roles',
+            'create-roles',
+            'store-roles',
+            'show-roles',
+            'edit-roles',
+            'update-roles',
+            'delete-roles',
+            'ver-usuarios',
             'create-usuarios',
             'store-usuarios',
             'show-usuarios',
             'edit-usuarios',
             'update-usuarios',
             'delete-usuarios',
+            'ver-servicios',
             'create-servicios',
             'store-servicios',
             'show-servicios',
             'edit-servicios',
             'update-servicios',
             'delete-servicios',
+            'ver-categorias',
             'create-categorias',
             'store-categorias',
             'show-categorias',
@@ -40,6 +50,7 @@ class RolePermissionSeeder extends Seeder
             'update-categorias',
             'delete-categorias',
             'ver-clientes'
+
         ];
 
         foreach ($permissions as $perm) {

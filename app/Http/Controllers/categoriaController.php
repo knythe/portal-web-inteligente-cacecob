@@ -11,9 +11,17 @@ use Illuminate\Support\Facades\DB;
 
 class categoriaController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    
+
+    function __construct() {
+
+        $this->middleware('permission:ver-categorias',['only'=>['index']]);
+        $this->middleware('permission:create-categorias',['only'=>['create']]);
+        $this->middleware('permission:edit-categorias',['only'=>['edit']]);
+        $this->middleware('permission:update-categorias',['only'=>['toggleEstado']]);
+
+    }
+
     public function index()
     {
         //

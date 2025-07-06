@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\ServiciosExport;
 use App\Http\Requests\storeServiciosRequest;
 use App\Http\Requests\updateServiciosRequest;
 use App\Models\categoria;
@@ -9,14 +10,22 @@ use App\Models\servicio;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
 
 use function Ramsey\Uuid\v8;
 
 class servicioController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    
+     function __construct()
+    {
+
+        $this->middleware('permission:ver-servicios', ['only' => ['index']]);
+        $this->middleware('permission:create-servicios', ['only' => ['create']]);
+        $this->middleware('permission:edit-servicios', ['only' => ['edit']]);
+        $this->middleware('permission:update-servicios', ['only' => ['toggleEstado']]);
+    }
+
     public function index()
     {
         //
@@ -24,6 +33,11 @@ class servicioController extends Controller
 
         return view('admin.servicios', compact('servicios'));
         
+    }
+
+    public function exportexcel()
+    {
+        return Excel::download(new ServiciosExport, 'report-servicios.xlsx');
     }
 
     /**

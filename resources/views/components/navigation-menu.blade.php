@@ -54,6 +54,7 @@
                      </ul>
                  </template>
              </li>-->
+             @can('ver-roles')
              <li class="relative px-6 py-3">
                  <a class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
                      href="{{ route('roles.index') }}">
@@ -63,6 +64,8 @@
                      <span class="ml-4">Roles</span>
                  </a>
              </li>
+             @endcan
+             @can('ver-usuarios')
              <li class="relative px-6 py-3">
                  <a class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
                      href="{{ route('usuarios.index') }}">
@@ -72,6 +75,8 @@
                      <span class="ml-4">Usuarios</span>
                  </a>
              </li>
+             @endcan
+             @can('ver-categorias')
              <li class="relative px-6 py-3">
                  <a class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
                      href="{{ route('categorias.index') }}">
@@ -81,6 +86,8 @@
                      <span class="ml-4">Categorias</span>
                  </a>
              </li>
+             @endcan
+             @can('ver-servicios')
              <li class="relative px-6 py-3">
                  <a class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
                      href="{{ route('servicios.index') }}">
@@ -91,6 +98,8 @@
                      <span class="ml-4">Servicios</span>
                  </a>
              </li>
+             @endcan
+             @can('ver-clientes')
              <li class="relative px-6 py-3">
                  <a class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200" href="{{ route('clientes.index') }}">
                      <svg class="w-5 h-5" aria-hidden="true" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
@@ -99,7 +108,8 @@
                      <span class="ml-4">Clientes potenciales</span>
                  </a>
              </li>
-             <li class="relative px-6 py-3">
+             @endcan
+             <!--<li class="relative px-6 py-3">
                  <a class="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200" href="../charts.html">
                      <svg class="w-5 h-5" aria-hidden="true" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
                          <path d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z"></path>
@@ -107,7 +117,7 @@
                      </svg>
                      <span class="ml-4">Reports</span>
                  </a>
-             </li>
+             </li>-->
 
          </ul>
 

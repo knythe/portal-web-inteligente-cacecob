@@ -48,6 +48,9 @@
                                 type="email"
                                 required
                                 class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" />
+                            @error('email')
+                            <span class="text-red-500 text-sm">{{ $message }}</span>
+                            @enderror
                         </label>
 
                         <!-- Password -->
@@ -58,6 +61,9 @@
                                 type="password"
                                 required
                                 class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input" />
+                            @error('password')
+                            <span class="text-red-500 text-sm">{{ $message }}</span>
+                            @enderror
                         </label>
 
                         <!-- Botón de Login -->
@@ -69,16 +75,6 @@
 
                         <hr class="my-8" />
 
-                        <!-- Recuperar contraseña -->
-                        <p class="mt-4">
-                            <a
-                                class="text-sm font-medium text-purple-600 dark:text-purple-400 hover:underline"
-                                href="./forgot-password.html">
-                                ¿Olvidaste tu contraseña?
-                            </a>
-                        </p>
-
-                        <br>
 
                         <!-- Botón Google -->
                         <a href="{{ route('google.login') }}"

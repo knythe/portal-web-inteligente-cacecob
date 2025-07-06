@@ -2,22 +2,35 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\ClientesExport;
 use App\Http\Requests\UpdateClientesRequest;
 use App\Models\cliente;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
 
 class clienteController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
+
+    function __construct() {
+
+        $this->middleware('permission:ver-clientes',['only'=>['index']]);
+    }
+
     public function index()
     {
         //
         $clientes = Cliente::orderBy('created_at', 'desc')->paginate(20);
         return view('admin.clientes', compact('clientes'));
+    }
+
+    public function exportexcel()
+    {
+        return Excel::download(new ClientesExport, 'report-clientes.xlsx');
     }
 
     /**

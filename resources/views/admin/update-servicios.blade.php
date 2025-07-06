@@ -58,6 +58,9 @@
                 <input name="titulo" type="text" value="{{$servicio -> titulo}}"
                     class="block w-full mt-1 text-sm dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:text-gray-300 dark:focus:shadow-outline-gray form-input"
                     placeholder="Servicio Academico" />
+                @error('titulo')
+                <span class="text-red-500 text-sm">{{ $message }}</span>
+                @enderror
             </div>
         </label>
         <label class="block mt-4 text-sm">
@@ -65,7 +68,17 @@
             <div class="relative text-gray-500 focus-within:text-purple-600 dark:focus-within:text-purple-400">
                 <input name="imagen" type="file"
                     class="block w-full pr-10 mt-1 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
-                    aria-describedby="user_avatar_help" id="user_avatar">
+                    aria-describedby="user_avatar_help" id="img_servicio">
+                @error('imagen')
+                <span class="text-red-500 text-sm">{{ $message }}</span>
+                @enderror
+                <div id="preview-container" class="mt-4">
+                    <img
+                        id="preview-image"
+                        src="{{ $servicio->imagen ? asset('storage/' . $servicio->imagen) : '#' }}"
+                        alt="Vista previa"
+                        class="{{ $servicio->imagen ? '' : 'hidden' }} w-40 h-40 object-cover rounded-lg border border-gray-300 dark:border-gray-600" />
+                </div>
                 <div class="absolute inset-y-0 right-0 flex items-center mr-3 pointer-events-none">
                     <svg class="w-5 h-5" aria-hidden="true" fill="none" stroke-linecap="round" stroke-linejoin="round"
                         stroke-width="1.5" viewBox="0 0 24 24" stroke="currentColor">
@@ -81,6 +94,9 @@
             <div class="relative text-gray-500 focus-within:text-purple-600 dark:focus-within:text-purple-400">
                 <textarea name="descripcion" class="block w-full mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-textarea focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray" rows="3"
                     placeholder="description to service" style="height: 128px;">{{$servicio -> descripcion}}</textarea>
+                @error('descripcion')
+                <span class="text-red-500 text-sm">{{ $message }}</span>
+                @enderror
             </div>
         </label>
         <div class="flex gap-x-4 mt-4">
@@ -191,6 +207,9 @@
                     <input name="fecha_fin" type="date" value="{{$servicio -> fecha_fin}}"
                         class="block w-full pr-10 mt-1 text-sm text-black dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray form-input"
                         placeholder="H. A." />
+                    @error('fecha_fin')
+                    <span class="text-red-500 text-sm">{{ $message }}</span>
+                    @enderror
                     <!--<input datepicker id="default-datepicker" type="text" class="block w-full pr-10 mt-1 text-sm text-black dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray form-input" placeholder="Select date">-->
                 </div>
             </label>
@@ -208,7 +227,6 @@
         </div>
     </div>
 </form>
-
 
 @endsection
 
